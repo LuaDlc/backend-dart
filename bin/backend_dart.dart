@@ -5,13 +5,14 @@ import 'infra/custom_server.dart';
 import 'utils/custom_env.dart';
 import 'services/noticias_service.dart';
 import 'infra/middleware_interception.dart';
+import 'infra/security/security_service_imp.dart';
 
 void main() async {
   CustomEnv.fromFile('.env');
 
   var cascadeHandler =
       Cascade()
-          .add(LoginApi().handler)
+          .add(LoginApi(SecurityServiceImp()).handler)
           .add(NoticiasApi(NoticiasService()).handler)
           .handler;
 
