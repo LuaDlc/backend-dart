@@ -13,14 +13,29 @@ class SecurityServiceImp implements SecurityService {
       'userID': userID, //claim customizada
       'roles': ['admin', 'user'],
     });
+    //recuperando a chave responsavel por assinar o token
     String key = await CustomEnv.get(key: 'jwt_key');
-    String token = await jwt.sign(SecretKey(key));
+    //gerado o token
+    String token = jwt.sign(SecretKey(key));
     return token;
   }
 
   @override
-  JWT? validateJWT(String token) {
-    // TODO: implement validateJWT
-    throw UnimplementedError();
+  Future<JWT?> validateJWT(String token) async {
+    String key = await CustomEnv.get(key: 'jwt_key');
+
+    try {
+      return JWT.verify(token, SecretKey(key));
+    } on JWTInvalidException {
+      return null;
+    } on JWTExpiredException {
+      return null;
+    } on JWTNotActiveException {
+      return null;
+    } on JWTUndefinedException {
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
