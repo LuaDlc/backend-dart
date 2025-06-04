@@ -5,9 +5,9 @@ class CustomServer {
   Future<void> initialize({
     required Handler handler,
     required String address,
-    required int door,
+    required int server_door,
   }) async {
-    await shelf_io.serve(handler, address, door);
-    print('servidor inicializado -> http://$address:$door');
+    await shelf_io.serve(handler, address, server_door);
+    print('servidor inicializado -> http://$address:$server_door');
   }
 }

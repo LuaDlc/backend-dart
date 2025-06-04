@@ -19,11 +19,12 @@ void main() async {
   var handler = Pipeline()
       .addMiddleware(MiddlewareInterception().middleware)
       .addMiddleware(logRequests())
+      .addMiddleware(SecurityServiceImp().authorization)
       .addHandler(cascadeHandler);
 
   await CustomServer().initialize(
     handler: handler,
     address: await CustomEnv.get<String>(key: 'server_address'),
-    door: await CustomEnv.get<int>(key: 'server_door'),
+    server_door: await CustomEnv.get<int>(key: 'server_door'),
   );
 }
