@@ -18,7 +18,7 @@ class NoticiasModel {
       ..dtAUpdated = map['dtCreated']
       ..userId = map['userId']?.toInt();
   }
-  factory NoticiasModel.fromRequest(Map map) {
+  factory NoticiasModel.fromJson(Map map) {
     return NoticiasModel()
       ..id = map['id']
       ..title = map['title']

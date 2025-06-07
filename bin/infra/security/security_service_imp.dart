@@ -1,11 +1,12 @@
 import 'package:shelf/shelf.dart';
-import 'package:shelf/src/middleware.dart';
-
 import 'security_service.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import '../../utils/custom_env.dart';
 
 class SecurityServiceImp implements SecurityService {
+  SecurityServiceImp() {
+    print('Objeto criado ${DateTime.now().microsecondsSinceEpoch}');
+  }
   @override
   Future<String> generateJWT(String userID) async {
     var jwt = JWT({
@@ -64,7 +65,14 @@ class SecurityServiceImp implements SecurityService {
   }
 
   @override
-  // TODO: implement verifyJwt
-  Middleware get verifyJwt => throw UnimplementedError();
+  Middleware get verifyJwt => createMiddleware(
+    requestHandler: (Request req) {
+      //registrando as rotas e fazendo a valicadacaos
+
+      if (req.context['jwt'] == null) {
+        return Response.forbidden('not authorized');
+      }
+      return null;
+    },
+  );
 }
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDkwNTA0MDYsInVzZXJJRCI6IjEiLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXX0.aLVBzGgcaZoKjRpiYmojLCZwfCEnwCBagd0Z79zGO80
